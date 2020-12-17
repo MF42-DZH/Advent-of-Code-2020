@@ -42,7 +42,6 @@ private fun isTicketValid(t: String): Pair<Boolean, Int> {
         b = b && validity
         if (intIfInvalid != null) {
             er += intIfInvalid
-            // println("Found invalid $intIfInvalid in $t")
         }
     }
 
@@ -51,17 +50,11 @@ private fun isTicketValid(t: String): Pair<Boolean, Int> {
 
 private fun determineOrder(): List<Criteria> {
     val nTicketValues = (myTicket + validTickets).map { it.split(',').map { n -> n.toInt() } }
-    // println(nTicketValues[0])
 
     val ticketFields: MutableList<List<Int>> = mutableListOf()
     for (i in nTicketValues[0].indices) {
         ticketFields.add(nTicketValues.map { it[i] })
     }
-    // println(ticketFields[0])
-
-    // for (i in ticketFields) {
-    //     println(givenFields.filter { cr -> i.all { v -> v in cr.range1 || v in cr.range2 } }.map { it.name })
-    // }
 
     val tfieldsMut = ticketFields.toMutableList()
     val availableFields = givenFields.toMutableList()
@@ -77,43 +70,27 @@ private fun determineOrder(): List<Criteria> {
             val valueSet = tfieldsMut[i]
             val validCrits = availableFields.filter { valueSet.all { v -> v in it.range1 || v in it.range2 } && it !in foundFields }
 
-            // print(validCrits.map { it.name })
-
             if (validCrits.size == 1) {
                 exclusions.add(i)
                 foundFields[i] = validCrits[0]
                 availableFields.remove(validCrits[0])
-                // println(" - FIXED")
                 break
-            } // else {
-            //     print('\n')
-            // }
+            }
         }
     }
 
-    // println("FINAL ORDER: ${foundFields.map { it.name }}")
-    // println(foundFields.size)
     return foundFields
 }
 
 fun main() {
-    // println(inputGroups[0])
-    // println(givenFields[0])
-
     // Part 1
     println(nearbyTickets.map { isTicketValid(it).second }.sum())
 
     // Part 2
-    // I SWEAR THIS SHOULD WORK
-    // WHY DOES IT NOT WORK AT ALL
-    // PLEASE
-    // SPARE ME FROM THIS BS
     val order = determineOrder()
     val mt = myTicket[0].split(',').map(String::toInt)
     var product = 1L
 
-    // println(mt)
-    // println(mt.size)
     for (i in mt.indices) {
         if ("departure" in order[i].name) {
             product *= mt[i].toLong()
