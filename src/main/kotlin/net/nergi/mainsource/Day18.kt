@@ -146,6 +146,18 @@ private fun eval(ev: EvToken): BigInteger {
 private val evaluated = finalInput.map(::eval)
 private val evaluated2 = finalInput2.map(::eval)
 
+private fun printAsRPN(expr: EvToken) {
+    fun toStringAsRPN(expr: EvToken): String {
+        return when {
+            expr is EvVal -> expr.bgInt.toString()
+            expr is EvApp -> "${toStringAsRPN(expr.v1)} ${toStringAsRPN(expr.v2)} ${expr.op.cnt}"
+            else -> "Undefined Expression."
+        }
+    }
+
+    println(toStringAsRPN(expr))
+}
+
 fun main() {
     // Verif
     println(homework.size)
@@ -167,12 +179,14 @@ fun main() {
     // Part 1
     println(evaluated.fold(BigInteger.ZERO) { r, i -> r + i })
     for (i in 0 until 10) {
+        printAsRPN(finalInput[i])
         println(finalInput[i])
     }
 
     // Part 2
     println(evaluated2.fold(BigInteger.ZERO) { r, i -> r + i })
     for (i in 0 until 10) {
+        printAsRPN(finalInput[i])
         println(finalInput2[i])
     }
 }
