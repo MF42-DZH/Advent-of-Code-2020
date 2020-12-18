@@ -27,11 +27,17 @@ private class TkOper(cnt: String) : Token(cnt) {
     override fun toString(): String = "TkOper $cnt"
 }
 
-private open class EvToken
+private open class EvToken {
+    override fun toString(): String = "Undefined Token"
+}
 
-private class EvVal(val bgInt: BigInteger) : EvToken()
+private class EvVal(val bgInt: BigInteger) : EvToken() {
+    override fun toString(): String = bgInt.toString()
+}
 
-private class EvApp(val op: TkOper, val v1: EvToken, val v2: EvToken) : EvToken()
+private class EvApp(val op: TkOper, val v1: EvToken, val v2: EvToken) : EvToken() {
+    override fun toString(): String = "($v1 ${op.cnt} $v2)"
+}
 
 private fun tokenise(str: String): List<Token> {
     return if (str.isEmpty()) (
@@ -160,7 +166,13 @@ fun main() {
 
     // Part 1
     println(evaluated.fold(BigInteger.ZERO) { r, i -> r + i })
+    for (i in 0 until 10) {
+        println(finalInput[i])
+    }
 
     // Part 2
     println(evaluated2.fold(BigInteger.ZERO) { r, i -> r + i })
+    for (i in 0 until 10) {
+        println(finalInput2[i])
+    }
 }
