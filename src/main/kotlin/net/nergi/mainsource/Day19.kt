@@ -65,19 +65,9 @@ private fun expandRule(rule: Int, ruleMap: RuleMap = mainRules): List<String> {
             val components = subRule.split(' ')
             val expansions = components.map { expandRule(it.toInt(), ruleMap) }
 
-            // for (expansion in expansions) {
-            //     val sb = StringBuilder()
-            //     expansion.forEach { sb.append(it) }
-
-            //     cstring.append(sb.toString())
-            // }
-
             combineStrLists(expansions).forEach { result.add(it) }
         }
 
-        // print(subRules)
-        // print(" | ")
-        // println(result)
         result
     }
 }
