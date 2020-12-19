@@ -2,6 +2,7 @@ package net.nergi.mainsource
 
 import net.nergi.utils.getGroupedInputFile
 import net.nergi.utils.lb
+import net.nergi.utils.test
 
 private val inputFile = getGroupedInputFile("day19.txt")
 
@@ -110,17 +111,19 @@ fun main() {
     // First, we get the current rule 42 and 31
     val r42 = expandRule(42)
     val r31 = expandRule(31)
-    
+
     // We also need to find the trace of rules that contain 8 or 11
-    println(mainRules.filter { mv -> 
-        val spl = mv.value.split(' ')
-        "8" in spl || "11" in spl
-    })
+    println(
+        mainRules.filter { mv ->
+            val spl = mv.value.split(' ')
+            "8" in spl || "11" in spl
+        }
+    )
 
     // Only 0 has either of 8 and 11
     // Every rule's matches are all equal length
     // We can abuse this to our advantage:
-    
+
     // Recursively matching 8
     fun countRule8Matches(str: String): Int {
         return if (str.length % r42[0].length != 0) {
@@ -147,7 +150,7 @@ fun main() {
         if (match8 <= 0) {
             return false
         }
-        
+
         var cnt = 0
 
         val toMatch = str.drop(match8 * r42[0].length)
@@ -162,5 +165,8 @@ fun main() {
         return cnt > 0 && cnt < match8
     }
 
-    println(messages.filter { matchAny8(it) && matchAny11(it) }.size)
+    println(messages.count { matchAny8(it) && matchAny11(it) })
+
+    test({ messages.count { it in r0canMatch } }, 8)
+    test({ messages.count { matchAny8(it) && matchAny11(it) } }, 8)
 }
