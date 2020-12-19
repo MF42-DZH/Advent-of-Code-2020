@@ -40,9 +40,9 @@ private class EvApp(val op: TkOper, val v1: EvToken, val v2: EvToken) : EvToken(
 }
 
 private fun tokenise(str: String): List<Token> {
-    return if (str.isEmpty()) (
+    return if (str.isEmpty()) {
         emptyList()
-        ) else {
+    } else {
         when {
             str[0].isDigit() -> {
                 val pred = Char::isDigit
