@@ -1,10 +1,9 @@
 package net.nergi.mainsource
 
-import kotlin.math.sqrt
-import kotlin.math.roundToInt
 import net.nergi.utils.getGroupedInputFile
 import net.nergi.utils.lb
-import net.nergi.utils.pass
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
 
 private val tileInput = getGroupedInputFile("day20.txt")
 
@@ -60,7 +59,7 @@ data class Tile(val id: Int, private var content: List<String>) {
     fun getLeftEdge(): String {
         val sb = StringBuilder()
         for (str in content) {
-            sb.append(str[0])
+            sb.append(str.first())
         }
 
         return sb.toString()
@@ -69,7 +68,7 @@ data class Tile(val id: Int, private var content: List<String>) {
     fun getRightEdge(): String {
         val sb = StringBuilder()
         for (str in content) {
-            sb.append(str[str.length - 1])
+            sb.append(str.last())
         }
 
         return sb.toString()
@@ -126,7 +125,7 @@ fun List<Tile>.findMatchingTiles(tile: Tile): List<Pair<Tile, Orientation>> {
     val tls: MutableList<Pair<Tile, Orientation>> = mutableListOf()
     val tileEdges = listOf(tile.getUpperEdge(), tile.getLowerEdge(), tile.getLeftEdge(), tile.getRightEdge()).flatMap { listOf(it, it.reversed()) }
     // println(tileEdges)
-    
+
     for (t in this) {
         if (t != tile) {
             val tEdges = listOf(t.getUpperEdge(), t.getLowerEdge(), t.getLeftEdge(), t.getRightEdge()).flatMap { listOf(it, it.reversed()) }
@@ -155,13 +154,6 @@ fun List<Tile>.findMatchingTiles(tile: Tile): List<Pair<Tile, Orientation>> {
     // return null to Orientation.UNDEF
     // println(tls)
     return tls
-}
-
-// Holds a set of connected tiles together
-private class TileSet {
-    fun contains(tile: Tile): Boolean {
-        TODO()
-    }
 }
 
 // Adapted from /u/VictiniX888's solution
@@ -229,7 +221,7 @@ private fun createTileSet(tiles: List<Tile>): Tile {
                         } else {
                             allTiles[tile.id]!!.flipVertical()
                         }
-                        
+
                         cur.setC(ic, tile)
                         tile.setC(ic.wrap(), cur)
 
@@ -277,13 +269,16 @@ private fun createTileSet(tiles: List<Tile>): Tile {
         lf = allTiles[lf.tileOnBottom!!.id]
     }
 
-    return Tile(0, img.map { rw ->
-        rw.map { tile ->
-            tile.contentNoBorder()
-        }.flatMap { it.mapIndexed { i, l -> IndexedValue(i, l) } }
-            .groupBy({ (y, _) -> y }, { (_, x) -> x })
-            .map { (_, x) -> x.reduce { acc, l -> acc + l } }
-    }.reduce { acc, l -> acc + l })
+    return Tile(
+        0,
+        img.map { rw ->
+            rw.map { tile ->
+                tile.contentNoBorder()
+            }.flatMap { it.mapIndexed { i, l -> IndexedValue(i, l) } }
+                .groupBy({ (y, _) -> y }, { (_, x) -> x })
+                .map { (_, x) -> x.reduce { acc, l -> acc + l } }
+        }.reduce { acc, l -> acc + l }
+    )
 }
 
 fun main() {
@@ -291,20 +286,20 @@ fun main() {
         fun Char.sm(): Boolean = this == '#'
 
         return ts[y, x + 18].sm() &&
-        ts[y + 1, x].sm() &&
-        ts[y + 1, x + 5].sm() &&
-        ts[y + 1, x + 6].sm() &&
-        ts[y + 1, x + 11].sm() &&
-        ts[y + 1, x + 12].sm() &&
-        ts[y + 1, x + 17].sm() &&
-        ts[y + 1, x + 18].sm() &&
-        ts[y + 1, x + 19].sm() &&
-        ts[y + 2, x + 1].sm() &&
-        ts[y + 2, x + 4].sm() &&
-        ts[y + 2, x + 7].sm() &&
-        ts[y + 2, x + 10].sm() &&
-        ts[y + 2, x + 13].sm() &&
-        ts[y + 2, x + 16].sm()
+            ts[y + 1, x].sm() &&
+            ts[y + 1, x + 5].sm() &&
+            ts[y + 1, x + 6].sm() &&
+            ts[y + 1, x + 11].sm() &&
+            ts[y + 1, x + 12].sm() &&
+            ts[y + 1, x + 17].sm() &&
+            ts[y + 1, x + 18].sm() &&
+            ts[y + 1, x + 19].sm() &&
+            ts[y + 2, x + 1].sm() &&
+            ts[y + 2, x + 4].sm() &&
+            ts[y + 2, x + 7].sm() &&
+            ts[y + 2, x + 10].sm() &&
+            ts[y + 2, x + 13].sm() &&
+            ts[y + 2, x + 16].sm()
     }
 
     fun countSeaMonsters(ts: Tile): Int {
@@ -326,13 +321,13 @@ fun main() {
     fun getTrueSeaMonsterCount(ts: Tile): Int {
         for (i in 0 until 4) {
             countSeaMonsters(ts).let { if (it != 0) return it }
-            
+
             ts.flipVertical()
             countSeaMonsters(ts).let { if (it != 0) return it }
-            
+
             ts.flipHorizontal()
             countSeaMonsters(ts).let { if (it != 0) return it }
-            
+
             ts.flipVertical()
             countSeaMonsters(ts).let { if (it != 0) return it }
 
@@ -353,16 +348,16 @@ fun main() {
         // println("$it:")
         it.getConnections(tt)
     }
-    
+
     // println(tt.map { it.countConnections() })
 
     val tc = tt.filter { it.countConnections() == 2 }
     println(4 == tc.size)
     println(tc.fold(1L) { r, it -> r * it.id.toLong() })
 
-    val ts = createTileSet(tt)
-
     System.exit(0)
+
+    // val ts = createTileSet(tt)
 
     // Part 1
     tiles.forEach {
