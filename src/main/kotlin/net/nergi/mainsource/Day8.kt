@@ -13,7 +13,7 @@ private fun parseAsTriple(inst: String): Triple<String, String, String> {
     return Triple(opcode, sign, num)
 }
 
-private data class MutablePair<X, Y>(var first: X, var second: Y)
+data class MutablePair<X, Y>(var first: X, var second: Y)
 
 private typealias InstructionSet = List<MutablePair<Triple<String, String, String>, Int>>
 
