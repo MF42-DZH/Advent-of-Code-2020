@@ -28,5 +28,5 @@ tasks.withType<KotlinCompile>() {
 }
 
 application {
-    mainClassName = "net.nergi.mainsource.Day20P2RedoKt"
+    mainClassName = "net.nergi.mainsource.Day21Kt"
 }
