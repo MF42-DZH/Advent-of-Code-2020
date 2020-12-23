@@ -6,7 +6,7 @@ plugins {
     application
 }
 
-group = "nergi.net"
+group = "nwt.nergi"
 version = "1.0.0"
 
 repositories {
@@ -27,6 +27,20 @@ tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
 }
 
+val mainLoc = "net.nergi.mainsource.Day23Kt"
+
+val jar by tasks.getting(Jar::class) {
+    manifest {
+        attributes["Implementation-Version"] = archiveVersion
+    }
+
+    from ({
+        configurations.runtimeClasspath.get().filter {
+            it.name.endsWith("jar")
+        }.map { zipTree(it) }
+    })
+}
+
 application {
-    mainClassName = "net.nergi.mainsource.Day22Kt"
+    mainClass.set(mainLoc)
 }

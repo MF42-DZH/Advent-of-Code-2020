@@ -108,7 +108,6 @@ private fun playRecursiveGame(p1: Player, p2: Player): Player {
 
             lst[win.id - 1].placeAtBottom(lst[win.id - 1].draw())
             lst[win.id - 1].placeAtBottom(lst[1 - (win.id - 1)].draw())
-
         } else {
             val win = if (p1r > p2r) {
                 0
