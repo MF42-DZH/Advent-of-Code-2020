@@ -108,7 +108,7 @@ private fun part2Moves(start: List<Int>, amount: Int, max: Int): Map<Int, Int> {
     var current = circle.keys.last()
     for (rnd in 0 until amount) {
         current = circle[current]!!
-        
+
         val pickedUp = mutableListOf<Int>()
         var tmp = current
 
