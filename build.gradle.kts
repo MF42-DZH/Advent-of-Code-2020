@@ -27,7 +27,7 @@ tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-val mainLoc = "net.nergi.mainsource.Day24P2Kt"
+val mainLoc = "net.nergi.mainsource.Day25Kt"
 
 val jar by tasks.getting(Jar::class) {
     manifest {
